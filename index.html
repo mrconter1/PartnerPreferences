@@ -84,6 +84,20 @@
             transition: background-color 0.3s, transform 0.2s;
             outline: none;
         }
+        /* Media Query for Smartphones */
+        @media (max-width: 600px) {
+            .container {
+                width: 100%; /* Make the container take full width of the viewport on small devices */
+                padding: 10px; /* Optionally reduce padding for smaller screens */
+            }
+            .buttons {
+                flex-direction: column; /* Stack buttons vertically */
+            }
+            button {
+                margin: 5px 0; /* Adjust margin for vertical stacking */
+                width: 100%; /* Full width buttons */
+            }
+        }
         button:hover, button.active {
             background-color: #0a84ff;
             transform: translateY(-2px);
