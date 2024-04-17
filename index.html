@@ -249,7 +249,13 @@
             categoriesContainer.appendChild(categoryDiv);
         });
 
-        document.addEventListener('click', event => {
+        const scoreElement = document.getElementById('totalScore');
+        const attributeScores = new Map();
+
+        document.addEventListener('click', handleUserInteraction, false);
+        document.addEventListener('touchend', handleUserInteraction, false); // Adds mobile-specific event listener
+
+        function handleUserInteraction(event) {
             if (event.target.tagName === 'BUTTON') {
                 const button = event.target;
                 const buttonGroup = button.parentNode;
@@ -260,16 +266,21 @@
 
                 if (projectedScore >= 0) {
                     updateScore(currentIndex, newValue);
-                    buttonGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
+                    // Explicitly trigger the UI update to ensure consistent behavior
+                    forceUpdateButtonStyles(buttonGroup, button);
                 } else {
                     showMessage();
                 }
+                event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
             }
-        });
+        }
 
-        const scoreElement = document.getElementById('totalScore');
-        const attributeScores = new Map();
+        function forceUpdateButtonStyles(buttonGroup, activeButton) {
+            buttonGroup.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            activeButton.classList.add('active');
+        }
 
         const errorMessage = document.createElement('div');
         errorMessage.id = 'errorMessage';
@@ -282,7 +293,7 @@
             setTimeout(() => {
                 errorMessage.style.opacity = '0';
                 setTimeout(() => errorMessage.style.display = 'none', 500);
-            }, 1000); // Message shows for 1 seconds then fades out
+            }, 1500); // Message shows for 1.5 seconds then fades out
         }
 
         function updateScore(index, newScore) {
