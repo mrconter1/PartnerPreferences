@@ -234,8 +234,8 @@
             category.attributes.forEach((attr, attrIndex) => {
                 let attributeDiv = document.createElement('div');
                 attributeDiv.className = 'attribute';
-                let buttonsHtml = ['3', '1', '0', '-1', '-3'].map(score => 
-                    `<button class="${score === '0' ? 'active' : ''}" value="${score}">${score === '3' ? "Minimal Importance" : score === '1' ? "Low Importance" : score === '0' ? "Moderate Importance" : score === '-1' ? "High Importance" : "Critical Importance"}</button>`
+                let buttonsHtml = ['3', '2', '0', '-2', '-3'].map(score => 
+                    `<button class="${score === '0' ? 'active' : ''}" value="${score}">${score === '3' ? "Minimal Importance" : score === '2' ? "Low Importance" : score === '0' ? "Moderate Importance" : score === '-2' ? "High Importance" : "Critical Importance"}</button>`
                 ).join('');
                 attributeDiv.innerHTML = `
                     <div><span class="attribute-title">${attr.title}</span></div>
