@@ -118,6 +118,28 @@
             opacity: 0;
             transition: opacity 0.5s;
         }
+        .summary-section {
+            background-color: #2a2a2a;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-list {
+            list-style-type: none; /* Removes default bullet points */
+            padding-left: 0; /* Aligns text nicely within the card */
+        }
+
+        .summary-list li {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #dddddd; /* Lighter text for readability */
+        }
+
+        .summary {
+            margin-bottom: 20px; /* Adds some space before the footer */
+        }
     </style>
 </head>
 <body>
@@ -130,6 +152,27 @@
     </div>
     <div class="footer">
         <div class="score">Balance: <span id="totalScore">0</span></div>
+    </div>
+
+    <div class="container summary" id="summaryContainer">
+        <h2>Summary of Preferences</h2>
+        <p>Review your prioritized preferences below:</p>
+        <div class="summary-section">
+            <strong>Critically Important</strong>
+            <ul id="highImportanceList" class="summary-list"></ul>
+        </div>
+        <div class="summary-section">
+            <strong>Important</strong>
+            <ul id="lowImportanceList" class="summary-list"></ul>
+        </div>
+        <div class="summary-section">
+            <strong>Moderately Important</strong>
+            <ul id="negativeImportanceList" class="summary-list"></ul>
+        </div>
+        <div class="summary-section">
+            <strong>Least Important</strong>
+            <ul id="criticalImportanceList" class="summary-list"></ul>
+        </div>
     </div>
 
     <div class="container-spacer" style="min-height: 50px;"></div>
