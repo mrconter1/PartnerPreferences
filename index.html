@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Preferences</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            flex: 1;
+            width: 95%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .footer {
+            background-color: #0a84ff;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+        .score {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .positive {
+            color: #4caf50;
+        }
+        .negative {
+            color: #f44336;
+        }
+        h2 {
+            color: #e0e0e0;
+        }
+        .attribute {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            text-align: center;
+            background: rgba(30, 30, 30, 0.8);
+        }
+        .attribute-title {
+            font-weight: bold;
+        }
+        .attribute-desc {
+            margin-top: 8px;
+            color: #bbb;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: none;
+            font-size: 14px;
+            letter-spacing: 0.0625em;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #333;
+            color: #ddd;
+            transition: background-color 0.3s, transform 0.2s;
+            outline: none;
+        }
+        button:hover, button.active {
+            background-color: #0a84ff;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="categoriesContainer">
+        <div class="introduction">
+                <h1>Partner Preferences</h1>
+                <p>Welcome! This page designed to help you explore and define your priorities when searching for a life partner. This tool encourages you to weigh various traits and values, ensuring that you focus on what's truly important to you. Perfect for those looking to start a family, this prioritizer helps you identify and balance your preferences in a partner.</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="score">Balance: <span id="totalScore">0</span></div>
+    </div>
+
+    <script>
+        let totalScore = 0;
+        const categories = [
+            {
+                title: "Personal Traits and Interests",
+                attributes: [
+                    { title: "Wisdom", desc: "My partner consistently demonstrates wisdom." },
+                    { title: "Resilience", desc: "My partner is resilient and well-equipped to handle stress." },
+                    { title: "Creativity", desc: "Creativity is a distinctive trait in my partner." },
+                    { title: "Life Ambitions", desc: "My partner is ambitious in life." },
+                    { title: "Humility", desc: "My partner values modesty and approaches life with humility." },
+                    { title: "Generosity", desc: "Generosity is a defining characteristic of my partner." },
+                    { title: "Optimism", desc: "My partner consistently maintains a positive outlook in life." },
+                    { title: "Intellectual Curiosity", desc: "My partner is eagerly engaged in learning and exploring new ideas." },
+                    { title: "Animal Compatibility", desc: "My partner shares views on having and caring for animals." },
+                    { title: "Aesthetic Alignment", desc: "My partner and I share similar aesthetic preferences." },
+                    { title: "Self-Reliance", desc: "My partner demonstrates a strong sense of self-reliance." }
+                ]
+            },
+            {
+                title: "Emotional and Social Skills",
+                attributes: [
+                    { title: "Empathy", desc: "My partner possesses a deep understanding and ability to share the feelings of others." },
+                    { title: "Active Listening", desc: "Active listening is a skill my partner excels in." },
+                    { title: "Social Competence", desc: "My partner is socially adept and easily likable." },
+                    { title: "Social Confidence", desc: "My partner actively engages and feels comfortable in social situations." },
+                    { title: "Interpersonal Harmony", desc: "We consistently get along well and maintain a harmonious relationship." },
+                    { title: "Validation", desc: "My partner frequently recognizes and affirms my feelings, needs, and identity." },
+                    { title: "Conflict Resolution", desc: "My partner skillfully resolves disputes and conflicts." },
+                    { title: "Patience", desc: "My partner demonstrates patience across various aspects of life." },
+                    { title: "Sense of Humor", desc: "My partner has a good sense of humor and appreciates wit and laughter." }
+                ]
+            },
+            {
+                title: "Health and Lifestyle",
+                attributes: [
+                    { title: "Physical Health", desc: "Maintaining physical health is a priority for my partner." },
+                    { title: "Mental Health", desc: "My partner is proactive about their mental health and wellbeing." },
+                    { title: "Environmental Consciousness", desc: "My partner is committed to sustainable living and environmental consciousness." }
+                ]
+            },
+            {
+                title: "Relationship Dynamics",
+                attributes: [
+                    { title: "Sexual Attraction", desc: "I feel a strong physical attraction to my partner." },
+                    { title: "Sexual Compatibility", desc: "My partner and I are aligned in our sexual preferences and interests." },
+                    { title: "Emotional Stability", desc: "My partner displays emotional stability and maturity." },
+                    { title: "Loyalty", desc: "Loyalty and commitment are fundamental aspects of my partner's character." },
+                    { title: "Age Similarity", desc: "My partner and I are similar in age." }
+                ]
+            },
+            {
+                title: "Cultural and Intellectual Engagement",
+                attributes: [
+                    { title: "Educational Level", desc: "My partner has attained a high level of education." },
+                    { title: "Language Skills", desc: "My partner has proficiency in multiple languages or is willing to learn new ones." },
+                    { title: "Artistic Appreciation", desc: "Artistic appreciation is a shared interest between my partner and me." },
+                    { title: "Technological Aptitude", desc: "My partner has a strong understanding of and comfort with technology." }
+                ]
+            },
+            {
+                title: "Family and Social Relations",
+                attributes: [
+                    { title: "Parental Harmony", desc: "My partner gets along well with my parents." },
+                    { title: "In-Law Compatibility", desc: "My partner maintains a positive and harmonious relationship with my in-laws." },
+                    { title: "Social Network Size", desc: "My partner has an extensive social network." },
+                    { title: "Social Ties Depth", desc: "The depth of my partner's social ties reflects deep and quality relationships." },
+                    { title: "Existing Family", desc: "My partner doesn't have any previous children." }
+                ]
+            },
+            {
+                title: "Practical Skills",
+                attributes: [
+                    { title: "Culinary Skills and Enjoyment", desc: "My partner exhibits both the skill in and enjoyment of cooking." },
+                    { title: "Economic Management", desc: "Financial acumen and economic management are strengths of my partner." },
+                    { title: "Punctuality", desc: "Punctuality is a consistent trait exhibited by my partner." },
+                    { title: "Tidiness", desc: "My partner values a tidy and clean living environment." }
+                ]
+            },
+            {
+                title: "Shared Interests",
+                attributes: [
+                    { title: "Hobbies Level", desc: "My partner actively participates in and enjoys a diverse range of hobbies." },
+                    { title: "Hobbies Alignment", desc: "My partner and I share a significant alignment in our hobbies and interests." }
+                ]
+            },
+            {
+                title: "Physical Appearance",
+                attributes: [
+                    { title: "Conventional Attractiveness", desc: "My partner is considered attractive by societal standards." },
+                    { title: "Physical Form", desc: "My partner possesses an impressive physique." }
+                ]
+            }
+        ];
+
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        categories.forEach((category, catIndex) => {
+            let categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            categoryDiv.innerHTML = `<h2>${category.title}</h2>`;
+            category.attributes.forEach((attr, attrIndex) => {
+                let attributeDiv = document.createElement('div');
+                attributeDiv.className = 'attribute';
+                let buttonsHtml = ['3', '1', '0', '-1', '-3'].map(score => 
+                    `<button class="${score === '0' ? 'active' : ''}" value="${score}">${score === '3' ? "Minimal Importance" : score === '1' ? "Low Importance" : score === '0' ? "Moderate Importance" : score === '-1' ? "High Importance" : "Critical Importance"}</button>`
+                ).join('');
+                attributeDiv.innerHTML = `
+                    <div><span class="attribute-title">${attr.title}</span></div>
+                    <div class="attribute-desc">${attr.desc}</div>
+                    <div class="buttons" data-index="${catIndex * 100 + attrIndex}">
+                        ${buttonsHtml}
+                    </div>
+                `;
+                categoryDiv.appendChild(attributeDiv);
+            });
+            categoriesContainer.appendChild(categoryDiv);
+        });
+
+        document.addEventListener('click', event => {
+            if (event.target.tagName === 'BUTTON') {
+                const buttonGroup = event.target.parentNode;
+                let currentValue = parseInt(event.target.value);
+                let dataIndex = parseInt(buttonGroup.dataset.index);
+                updateScore(dataIndex, currentValue);
+                buttonGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+        });
+
+        const scoreElement = document.getElementById('totalScore');
+        const attributeScores = new Map();
+
+        function updateScore(index, newScore) {
+            const prevScore = attributeScores.get(index) || 0;
+            totalScore += newScore - prevScore;
+            attributeScores.set(index, newScore);
+            scoreElement.textContent = totalScore;
+            scoreElement.className = totalScore < 0 ? 'negative' : 'positive';
+        }
+    </script>
+</body>
+</html>
