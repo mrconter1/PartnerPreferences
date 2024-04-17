@@ -103,6 +103,20 @@
             background-color: #0a84ff;
             transform: translateY(-2px);
         }
+        #errorMessage {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
     </style>
 </head>
 <body>
@@ -237,17 +251,39 @@
 
         document.addEventListener('click', event => {
             if (event.target.tagName === 'BUTTON') {
-                const buttonGroup = event.target.parentNode;
-                let currentValue = parseInt(event.target.value);
-                let dataIndex = parseInt(buttonGroup.dataset.index);
-                updateScore(dataIndex, currentValue);
-                buttonGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
+                const button = event.target;
+                const buttonGroup = button.parentNode;
+                const currentIndex = parseInt(buttonGroup.dataset.index);
+                const newValue = parseInt(button.value);
+                const previousValue = attributeScores.has(currentIndex) ? attributeScores.get(currentIndex) : 0;
+                const projectedScore = totalScore - previousValue + newValue;
+
+                if (projectedScore >= 0) {
+                    updateScore(currentIndex, newValue);
+                    buttonGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                } else {
+                    showMessage();
+                }
             }
         });
 
         const scoreElement = document.getElementById('totalScore');
         const attributeScores = new Map();
+
+        const errorMessage = document.createElement('div');
+        errorMessage.id = 'errorMessage';
+        errorMessage.textContent = 'You cannot have a negative score...';
+        document.body.appendChild(errorMessage);
+
+        function showMessage() {
+            errorMessage.style.display = 'block';
+            errorMessage.style.opacity = '1';
+            setTimeout(() => {
+                errorMessage.style.opacity = '0';
+                setTimeout(() => errorMessage.style.display = 'none', 500);
+            }, 1000); // Message shows for 1 seconds then fades out
+        }
 
         function updateScore(index, newScore) {
             const prevScore = attributeScores.get(index) || 0;
