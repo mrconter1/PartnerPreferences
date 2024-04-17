@@ -42,7 +42,7 @@
             margin-top: 0;
         }
         .positive {
-            color: #4caf50;
+            color: #e0e0e0;
         }
         .negative {
             color: #f44336;
@@ -235,7 +235,7 @@
                 let attributeDiv = document.createElement('div');
                 attributeDiv.className = 'attribute';
                 let buttonsHtml = ['3', '2', '0', '-2', '-3'].map(score => 
-                    `<button class="${score === '0' ? 'active' : ''}" value="${score}">${score === '3' ? "Minimal Importance" : score === '2' ? "Low Importance" : score === '0' ? "Moderate Importance" : score === '-2' ? "High Importance" : "Critical Importance"}</button>`
+                    `<button class="${score === '0' ? 'active' : ''}" value="${score}">${score === '3' ? "+3 | Minimal Importance" : score === '2' ? "+2 | Low Importance" : score === '0' ? "Moderate Importance" : score === '-2' ? "-2 | High Importance" : "-3 | Critical Importance"}</button>`
                 ).join('');
                 attributeDiv.innerHTML = `
                     <div><span class="attribute-title">${attr.title}</span></div>
