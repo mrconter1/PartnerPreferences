@@ -272,6 +272,28 @@
             }
         ];
 
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isScrolling = false;
+
+        document.addEventListener('touchstart', function(event) {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            isScrolling = false;
+        }, false);
+
+        document.addEventListener('touchmove', function(event) {
+            const moveX = Math.abs(event.touches[0].clientX - touchStartX);
+            const moveY = Math.abs(event.touches[0].clientY - touchStartY);
+            if (moveX > 10 || moveY > 10) {
+                isScrolling = true;
+            }
+        }, false);
+
+        document.addEventListener('touchend', function(event) {
+            isScrolling = false;
+        }, false);
+
         const categoriesContainer = document.getElementById('categoriesContainer');
         categories.forEach((category, catIndex) => {
             let categoryDiv = document.createElement('div');
@@ -299,10 +321,9 @@
         const attributeScores = new Map();
 
         document.addEventListener('click', handleUserInteraction, false);
-        document.addEventListener('touchend', handleUserInteraction, false); // Adds mobile-specific event listener
 
         function handleUserInteraction(event) {
-            if (event.target.tagName === 'BUTTON') {
+            if (event.target.tagName === 'BUTTON' && !isScrolling) {
                 const button = event.target;
                 const buttonGroup = button.parentNode;
                 const currentIndex = parseInt(buttonGroup.dataset.index);
