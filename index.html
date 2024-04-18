@@ -323,23 +323,24 @@
         document.addEventListener('click', handleUserInteraction, false);
 
         function handleUserInteraction(event) {
+            console.log(event)
             if (event.target.tagName === 'BUTTON' && !isScrolling) {
                 const button = event.target;
                 const buttonGroup = button.parentNode;
                 const currentIndex = parseInt(buttonGroup.dataset.index);
                 const newValue = parseInt(button.value);
-                const previousValue = attributeScores.has(currentIndex) ? attributeScores.get(currentIndex) : 0;
+                const previousValue = attributeScores.get(currentIndex) || 0;
                 const projectedScore = totalScore - previousValue + newValue;
 
-                event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
                 if (projectedScore >= 0) {
                     updateScore(currentIndex, newValue);
                     // Explicitly trigger the UI update to ensure consistent behavior
                     forceUpdateButtonStyles(buttonGroup, button);
                 } else {
                     showMessage();
-                    revertButtonStyles(buttonGroup);
+                    revertButtonStyles(buttonGroup, previousValue);
                 }
+                event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
             }
         }
 
@@ -350,15 +351,16 @@
             activeButton.classList.add('active');
         }
 
-        function revertButtonStyles(buttonGroup) {
+        function revertButtonStyles(buttonGroup, previousValue) {
             buttonGroup.querySelectorAll('button').forEach(btn => {
                 btn.classList.remove('active');  // Remove 'active' from all buttons
             });
-            const activeButton = Array.from(buttonGroup.children).find(btn => btn.value == (attributeScores.get(parseInt(buttonGroup.dataset.index)) || 0).toString());
+            const activeButton = Array.from(buttonGroup.children).find(btn => parseInt(btn.value) === previousValue);
             if(activeButton) {
                 activeButton.classList.add('active');  // Re-apply 'active' to previous active button
             }
         }
+
 
         const errorMessage = document.createElement('div');
         errorMessage.id = 'errorMessage';
