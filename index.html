@@ -378,6 +378,20 @@
                         break;
                 }
             });
+
+            // Add placeholder text if list is empty
+            addPlaceholderIfEmpty(minimalImportanceList);
+            addPlaceholderIfEmpty(lowImportanceList);
+            addPlaceholderIfEmpty(highImportanceList);
+            addPlaceholderIfEmpty(criticalImportanceList);
+        }
+
+        function addPlaceholderIfEmpty(listElement) {
+            if (listElement.children.length === 0) {
+                const listItem = document.createElement('li');
+                listItem.textContent = "This category is currently empty.";
+                listElement.appendChild(listItem);
+            }
         }
 
         function updateScore(index, newScore) {
@@ -388,6 +402,10 @@
             scoreElement.className = totalScore < 0 ? 'negative' : 'positive';
             updateSummaryLists();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSummaryLists();  // Initialize your summary list display logic
+        });
     </script>
 </body>
 </html>
