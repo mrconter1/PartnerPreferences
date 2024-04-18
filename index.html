@@ -464,7 +464,7 @@
             const prevScore = attributeScores.get(index) || 0;
             totalScore += newScore - prevScore;
             attributeScores.set(index, newScore);
-            scoreElement.textContent = (totalScore >= 0 ? "+" : "") + totalScore;
+            scoreElement.textContent = totalScore > 0 ? `+${totalScore}` : totalScore;
             scoreElement.className = totalScore < 0 ? 'negative' : 'positive';
             updateSummaryLists();
         }
