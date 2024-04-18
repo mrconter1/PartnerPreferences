@@ -104,6 +104,18 @@
             background-color: #0a84ff;
             transform: translateY(-2px);
         }
+        .error {
+            box-shadow: inset 0 0 0 2px #f44336; /* Red inset shadow for error */
+            animation: fadeOutShadow 1s ease-out forwards;
+        }
+        @keyframes fadeOutShadow {
+            from {
+                box-shadow: inset 0 0 0 2px #f44336;
+            }
+            to {
+                box-shadow: inset 0 0 0 2px transparent;
+            }
+        }
         #errorMessage {
             position: fixed;
             bottom: 50px;
@@ -340,6 +352,7 @@
                 } else {
                     showMessage();
                     revertButtonStyles(buttonGroup, previousValue);
+                    indicateButtonError(button);
                 }
                 event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
             }
@@ -360,6 +373,24 @@
             if(activeButton) {
                 activeButton.classList.add('active');  // Re-apply 'active' to previous active button
             }
+        }
+
+        function indicateButtonError(button) {
+            // Function to remove error class
+            function removeError() {
+                button.classList.remove('error');
+                button.removeEventListener('animationend', removeError); // Cleanup listener
+            }
+
+            // Check if the error class is already set
+            if (button.classList.contains('error')) {
+                // Force restart animation
+                button.classList.remove('error');
+                void button.offsetWidth; // Trigger reflow to reset CSS animation
+            }
+
+            button.classList.add('error');
+            button.addEventListener('animationend', removeError);
         }
 
 
