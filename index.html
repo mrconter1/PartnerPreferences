@@ -456,6 +456,7 @@
             if (listElement.children.length === 0) {
                 const listItem = document.createElement('li');
                 listItem.textContent = "This category is currently empty.";
+                listItem.style.opacity = '0.6';
                 listElement.appendChild(listItem);
             }
         }
