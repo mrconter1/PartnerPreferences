@@ -342,12 +342,51 @@
             }, 1500); // Message shows for 1.5 seconds then fades out
         }
 
+        function updateSummaryLists() {
+            const criticalImportanceList = document.getElementById('criticalImportanceList');
+            const highImportanceList = document.getElementById('highImportanceList');
+            const lowImportanceList = document.getElementById('lowImportanceList');
+            const minimalImportanceList = document.getElementById('minimalImportanceList');
+
+            // Clear existing entries
+            criticalImportanceList.innerHTML = '';
+            highImportanceList.innerHTML = '';
+            lowImportanceList.innerHTML = '';
+            minimalImportanceList.innerHTML = '';
+
+            // Populate lists based on importance
+            attributeScores.forEach((value, key) => {
+                const categoryIndex = Math.floor(key / 100);
+                const attributeIndex = key % 100;
+                const attribute = categories[categoryIndex].attributes[attributeIndex];
+                const listItem = document.createElement('li');
+                listItem.textContent = attribute.title;
+
+                // Append to corresponding list based on the score value
+                switch (value) {
+                    case 3:
+                        minimalImportanceList.appendChild(listItem);
+                        break;
+                    case 2:
+                        lowImportanceList.appendChild(listItem);
+                        break;
+                    case -2:
+                        highImportanceList.appendChild(listItem);
+                        break;
+                    case -3:
+                        criticalImportanceList.appendChild(listItem);
+                        break;
+                }
+            });
+        }
+
         function updateScore(index, newScore) {
             const prevScore = attributeScores.get(index) || 0;
             totalScore += newScore - prevScore;
             attributeScores.set(index, newScore);
             scoreElement.textContent = totalScore;
             scoreElement.className = totalScore < 0 ? 'negative' : 'positive';
+            updateSummaryLists();
         }
     </script>
 </body>
