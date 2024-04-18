@@ -337,6 +337,7 @@
                     forceUpdateButtonStyles(buttonGroup, button);
                 } else {
                     showMessage();
+                    revertButtonStyles(buttonGroup);
                 }
                 event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
             }
@@ -347,6 +348,16 @@
                 btn.classList.remove('active');
             });
             activeButton.classList.add('active');
+        }
+
+        function revertButtonStyles(buttonGroup) {
+            buttonGroup.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('active');  // Remove 'active' from all buttons
+            });
+            const activeButton = Array.from(buttonGroup.children).find(btn => btn.value == (attributeScores.get(parseInt(buttonGroup.dataset.index)) || 0).toString());
+            if(activeButton) {
+                activeButton.classList.add('active');  // Re-apply 'active' to previous active button
+            }
         }
 
         const errorMessage = document.createElement('div');
