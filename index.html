@@ -146,7 +146,7 @@
     <div class="container" id="categoriesContainer">
         <div class="introduction">
                 <h1>Partner Preferences</h1>
-                <p>2Welcome! This page designed to help you explore and define your priorities when searching for a life partner. This tool encourages you to weigh various traits and values, ensuring that you focus on what's truly important to you. Perfect for those looking to start a family, this prioritizer helps you identify and balance your preferences in a partner.</p>
+                <p>3Welcome! This page designed to help you explore and define your priorities when searching for a life partner. This tool encourages you to weigh various traits and values, ensuring that you focus on what's truly important to you. Perfect for those looking to start a family, this prioritizer helps you identify and balance your preferences in a partner.</p>
             </div>
         </div>
     </div>
@@ -355,10 +355,6 @@
             buttonGroup.querySelectorAll('button').forEach(btn => {
                 btn.classList.remove('active');  // Remove 'active' from all buttons
             });
-            const activeButton = Array.from(buttonGroup.children).find(btn => parseInt(btn.value) === previousValue);
-            if(activeButton) {
-                activeButton.classList.add('active');  // Re-apply 'active' to previous active button
-            }
         }
 
 
