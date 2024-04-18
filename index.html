@@ -146,7 +146,7 @@
     <div class="container" id="categoriesContainer">
         <div class="introduction">
                 <h1>Partner Preferences</h1>
-                <p>1Welcome! This page designed to help you explore and define your priorities when searching for a life partner. This tool encourages you to weigh various traits and values, ensuring that you focus on what's truly important to you. Perfect for those looking to start a family, this prioritizer helps you identify and balance your preferences in a partner.</p>
+                <p>2Welcome! This page designed to help you explore and define your priorities when searching for a life partner. This tool encourages you to weigh various traits and values, ensuring that you focus on what's truly important to you. Perfect for those looking to start a family, this prioritizer helps you identify and balance your preferences in a partner.</p>
             </div>
         </div>
     </div>
@@ -331,6 +331,7 @@
                 const previousValue = attributeScores.has(currentIndex) ? attributeScores.get(currentIndex) : 0;
                 const projectedScore = totalScore - previousValue + newValue;
 
+                event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
                 if (projectedScore >= 0) {
                     updateScore(currentIndex, newValue);
                     // Explicitly trigger the UI update to ensure consistent behavior
@@ -339,7 +340,6 @@
                     showMessage();
                     revertButtonStyles(buttonGroup);
                 }
-                event.preventDefault(); // Suggest adding preventDefault to avoid any default touch behavior
             }
         }
 
