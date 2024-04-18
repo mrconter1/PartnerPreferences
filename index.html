@@ -294,6 +294,8 @@
             isScrolling = false;
         }, false);
 
+        document.addEventListener('touchend', handleUserInteraction, false);
+
         const categoriesContainer = document.getElementById('categoriesContainer');
         categories.forEach((category, catIndex) => {
             let categoryDiv = document.createElement('div');
@@ -323,7 +325,6 @@
         document.addEventListener('click', handleUserInteraction, false);
 
         function handleUserInteraction(event) {
-            console.log(event)
             if (event.target.tagName === 'BUTTON' && !isScrolling) {
                 const button = event.target;
                 const buttonGroup = button.parentNode;
@@ -355,6 +356,10 @@
             buttonGroup.querySelectorAll('button').forEach(btn => {
                 btn.classList.remove('active');  // Remove 'active' from all buttons
             });
+            const activeButton = Array.from(buttonGroup.children).find(btn => btn.value == (attributeScores.get(parseInt(buttonGroup.dataset.index)) || 0).toString());
+            if(activeButton) {
+                activeButton.classList.add('active');  // Re-apply 'active' to previous active button
+            }
         }
 
 
